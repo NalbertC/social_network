@@ -4,6 +4,7 @@ import { BiMessageSquareDetail } from "react-icons/bi";
 import { useAuth } from "../hooks/useAuth";
 import { Like, Post, dateFarmater } from "../pages/Home";
 import { api } from "../services/api";
+import { Comment } from "./Comment";
 
 interface CardPostProps {
   id: string;
@@ -22,13 +23,14 @@ export function CardPost({
   created_at,
   userPost,
   userImage,
-  // likes,
+  likes,
 }: CardPostProps) {
   const { user } = useAuth();
 
   const [post, setPost] = useState<Post>({} as Post);
 
   const [isLike, setIsLike] = useState(false);
+  const [isComment, setIsComment] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -56,7 +58,7 @@ export function CardPost({
   }
 
   return (
-    <div className="bg-[#242526] w-full max-w-[580px] rounded-lg  mt-4">
+    <div className="bg-[#242526] w-full max-w-[580px] rounded-2xl  mt-4">
       {/* header card */}
       <div className="h-14 flex items-center px-4">
         <div className="flex gap-2 items-center h-12">
@@ -129,7 +131,8 @@ export function CardPost({
                 <AiOutlineHeart size={20} />
                 <span
                   className={`${
-                    post.likes?.some((iten) => iten.userId === id) && "text-button"
+                    post.likes?.some((iten) => iten.userId === id) &&
+                    "text-button"
                   }`}
                 >
                   Curtir
@@ -138,11 +141,15 @@ export function CardPost({
             )}
           </button>
 
-          <div className="w-full h-8 font-bold flex items-center gap-2 justify-center hover:bg-colorSecondary   rounded-lg">
+          <button className="w-full h-8 font-bold flex items-center gap-2 justify-center hover:bg-colorSecondary   rounded-lg" onClick={()=>{
+            setIsComment(!isComment)
+          }}>
             <BiMessageSquareDetail size={20} />
             Comentar
-          </div>
+          </button>
         </div>
+
+        <div>{isComment && <Comment />}</div>
       </div>
     </div>
   );

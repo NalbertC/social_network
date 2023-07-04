@@ -4,7 +4,6 @@ import { Button } from "../components/Button";
 import { Heading } from "../components/Heading";
 import { Input } from "../components/Input";
 import { Logo } from "../components/Logo";
-import { Page } from "../components/Page";
 import { Text } from "../components/Text";
 import { AuthContext } from "../contexts/auth";
 
@@ -30,9 +29,9 @@ export function Login() {
   };
 
   return (
-    <Page>
+    <div className="bg-background h-screen w-full">
       <div className=" h-full w-full fixed inset-0">
-        <div className="absolute px-6 pt-4 pb-6 bg-background rounded-2xl w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 focus:shadow-0 focus:outline-0 flex flex-col justify-center items-center">
+        <div className="absolute px-6 pt-4 pb-6 bg-card rounded-2xl w-full max-w-md top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 focus:shadow-0 focus:outline-0 flex flex-col justify-center items-center">
           <div className="flex flex-col items-center my-6 ">
             <Logo /> <Heading>ToDoHub</Heading>
             <Text className="font-bold text-gray-500">
@@ -88,6 +87,6 @@ export function Login() {
           </div>
         </div>
       </div>
-    </Page>
+    </div>
   );
 }

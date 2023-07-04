@@ -10,11 +10,12 @@ import { AuthProvider } from "../contexts/auth";
 import { AutoCadastro } from "../pages/AutoCadastro";
 
 import { Home } from "../pages/Home";
-import { Inicio } from "../pages/Inicio";
+
 import { Login } from "../pages/Login";
 
 import { useAuth } from "../hooks/useAuth";
 import { NotFound } from "../pages/NotFound";
+import { Profile } from "../pages/Profile";
 import { RecuperarSenha } from "../pages/RecuperarSenha";
 import { ResetarSenha } from "../pages/ResetarSenha";
 
@@ -46,9 +47,17 @@ export function WebRoutes() {
               </Private>
             }
           />
+          <Route
+            path="/profile"
+            element={
+              <Private>
+                <Profile />
+              </Private>
+            }
+          />
 
           <Route path="/login" element={<Login />} />
-          <Route path="/inicio" element={<Inicio />} />
+
           <Route path="/cadastro" element={<AutoCadastro />} />
           <Route path="/recuperar_senha" element={<RecuperarSenha />} />
           <Route path="/resetar_senha/:token" element={<ResetarSenha />} />

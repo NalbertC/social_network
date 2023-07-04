@@ -1,19 +1,8 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
-  content: ["./src/**/*.tsx", "./index.html"],
+  content: ["./App.tsx", "./src/**/*.tsx"],
   theme: {
-    fontSize: {
-      xs: 14,
-      sm: 16,
-      md: 18,
-      lg: 20,
-      xl: 24,
-      "2xl": 32,
-    },
     extend: {
-      fontFamily: {
-        sans: ["Helvetica", "Arial", "sans-serif"],
-      },
       colors: {
         background: "#18181a",
         header: "#242526",
@@ -25,8 +14,8 @@ module.exports = {
         textPrincipal: "#e4e6eb",
         textSecondary: "#b0b3b8",
       },
-
     },
+
   },
   plugins: [],
 };
