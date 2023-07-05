@@ -90,25 +90,25 @@ export default {
 
   async post(req: Request, res: Response) {
     try {
-      const userAutenticated = z.object({
-        userId: z.string(),
-      });
+      // const userAutenticated = z.object({
+      //   userId: z.string(),
+      // });
 
       const viewPostParams = z.object({
         postId: z.string(),
       });
 
-      const { userId } = userAutenticated.parse(req);
+      // const { userId } = userAutenticated.parse(req);
 
-      const userExists = await prisma.user.findUnique({
-        where: {
-          id: userId,
-        },
-      });
+      // const userExists = await prisma.user.findUnique({
+      //   where: {
+      //     id: userId,
+      //   },
+      // });
 
-      if (!userExists) {
-        return res.status(401).json("User does not exists");
-      }
+      // if (!userExists) {
+      //   return res.status(401).json("User does not exists");
+      // }
 
       const { postId } = viewPostParams.parse(req.params);
 

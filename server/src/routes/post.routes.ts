@@ -6,13 +6,15 @@ import { ensureAuthenticated } from "../middlewares/authentication";
 
 const postRoutes = Router();
 
-postRoutes.get("/", ensureAuthenticated, PostController.index);
+postRoutes.get("/",  PostController.index);
 postRoutes.post(
   "/",
   ensureAuthenticated,
   multer(multerConfig).single("file"),
   PostController.create
 );
-postRoutes.get("/post/:postId", ensureAuthenticated, PostController.post);
+postRoutes.get("/post/:postId",
+// ensureAuthenticated,
+ PostController.post);
 
 export { postRoutes };

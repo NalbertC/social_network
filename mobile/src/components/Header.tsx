@@ -1,19 +1,27 @@
-import { Feather } from "@expo/vector-icons";
-import { Text, TouchableOpacity, View } from "react-native";
+import { FontAwesome } from "@expo/vector-icons";
+import { TouchableOpacity, View } from "react-native";
 import colors from "tailwindcss/colors";
 
+import { useNavigation } from "@react-navigation/native";
+import { useAuth } from "../hooks/useAuth";
 import { Logo } from "./Logo";
 
 interface HeaderProps {}
 
 export function Header({}: HeaderProps) {
-  return (
-    <View className="w-full flex-row items-center justify-between bg-slate-600 h-14">
-      <Logo />
-      <TouchableOpacity activeOpacity={0.7}>
-        <Feather name="plus" size={20} color={colors.blue[500]} />
+  const { navigate } = useNavigation();
+  const { logout } = useAuth();
 
-        <Text className="text-textPrincipal  ml-3 text-base">Novo</Text>
+  return (
+    <View className="w-full flex-row items-center justify-between h-14 px-4 border-background border-b bg-header">
+      <Logo />
+
+      <TouchableOpacity
+        activeOpacity={0.7}
+        className="items-center flex-row bg-card px-1 rounded-full h-9 w-9 justify-center"
+        onPress={logout}
+      >
+        <FontAwesome name="bars" size={24} color={colors.blue[500]} />
       </TouchableOpacity>
     </View>
   );

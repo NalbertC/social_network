@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { Loading } from "./src/components/Loading";
-import { Login } from "./src/screens/Login";
+import { AuthProvider } from "./src/contexts/Auth";
+import { Routes } from "./src/routes";
 import { loadFonts } from "./src/utils/Font";
 
 export default function App() {
@@ -22,8 +23,9 @@ export default function App() {
 
   return (
     <>
-      {/* <Home /> */}
-      <Login/>
+      <AuthProvider>
+        <Routes />
+      </AuthProvider>
       <StatusBar
         barStyle="light-content"
         backgroundColor="transparent"
