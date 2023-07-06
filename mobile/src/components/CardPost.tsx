@@ -1,9 +1,11 @@
 import { Image, Text, TouchableOpacity, View } from "react-native";
 
 import { Entypo, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useEffect, useState } from "react";
-import { api } from "../libs/axios";
+import { useNavigation } from "@react-navigation/native";
 import dayjs from "dayjs";
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../hooks/useAuth";
+import { api } from "../libs/axios";
 
 export interface Post {
   id: string;
@@ -36,6 +38,7 @@ export interface Like {
 
 interface CardPostProps {
   id: string;
+  likes: number;
 }
 
 export function dateFarmater(date: Date) {
@@ -43,18 +46,28 @@ export function dateFarmater(date: Date) {
   return formater;
 }
 
-export function CardPost({ id }: CardPostProps) {
+export function CardPost({ id, likes }: CardPostProps) {
   const [isLike, setIsLike] = useState(false);
   const [post, setPost] = useState<Post>({} as Post);
+
+  const { user } = useAuth();
+  const { navigate } = useNavigation();
 
   useEffect(() => {
     (async () => {
       const response = await api.get(`/posts/post/${id}`);
 
       setPost(response.data);
-      console.log(response.data);
     })();
-  }, []);
+  }, [id, likes , isLike]);
+
+  async function like(postId: string) {
+    try {
+      const { data } = await api.patch(`/like/${postId}`);
+      console.log(data);
+      setIsLike(!isLike);
+    } catch (error) {}
+  }
 
   return (
     <View className="bg-card mb-2">
@@ -90,14 +103,20 @@ export function CardPost({ id }: CardPostProps) {
           </Text>
         )}
 
-        <View className="w-full border-cardHover border-y max-h-80">
+        <TouchableOpacity
+          className="w-full border-cardHover border-y max-h-80"
+          activeOpacity={1}
+          onPress={() => {
+            navigate("post", { postId: post.id });
+          }}
+        >
           <Image
             source={{
               uri: `http://10.0.1.106:8000/files/${post.image?.key}`,
             }}
             className="w-full h-full"
           />
-        </View>
+        </TouchableOpacity>
       </View>
 
       {/* footer  */}
@@ -131,12 +150,10 @@ export function CardPost({ id }: CardPostProps) {
             className="justify-center items-center bg-colorSecondary rounded-full px-10 h-10 flex-row"
             activeOpacity={0.7}
             onPress={() => {
-              setIsLike(!isLike);
+              like(id);
             }}
           >
-            {post.likes?.some(
-              (iten) => iten.userId === "7b3710ed-1e56-4db2-872a-837d88a26471"
-            ) ? (
+            {post.likes?.some((iten) => iten.userId === user?.id) ? (
               <Ionicons name="heart-sharp" color={"#2374e1"} size={28} />
             ) : (
               <Ionicons name="heart-outline" color={"#fff"} size={28} />

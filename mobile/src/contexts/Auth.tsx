@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { api } from "../libs/axios";
@@ -7,6 +8,7 @@ interface User {
   name: string;
   username: string;
   image?: string;
+  imageKey?: string;
 }
 
 interface AuthContextType {
@@ -30,7 +32,17 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    setLoading(false);
+    (async () => {
+      const recoveredUser = await AsyncStorage.getItem("user");
+
+      if (recoveredUser) {
+        setUser(JSON.parse(recoveredUser));
+      }
+
+      console.log(recoveredUser)
+
+      setLoading(false);
+    })();
   }, []);
 
   const login = async (username: string, password: string) => {
@@ -41,17 +53,27 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         password,
       });
 
+      const loggedUser = response.data.user;
+      const token = response.data.token;
+
+      AsyncStorage.setItem("user", JSON.stringify(loggedUser));
+      AsyncStorage.setItem("token", token);
+
+      api.defaults.headers.authorization = `Bearer ${token}`;
+
       setUser(response.data.user);
     } catch (err) {
-
-      return Alert.alert("Ops...", "Usuário ou senha inválidos")
+      return Alert.alert("Ops...", "Usuário ou senha inválidos");
     } finally {
       setLoading(false);
     }
   };
 
   const logout = () => {
-    setUser({} as User)
+    AsyncStorage.removeItem("user");
+    AsyncStorage.removeItem("token");
+    setUser({} as User);
+    api.defaults.headers.authorization = null;
   };
 
   return (

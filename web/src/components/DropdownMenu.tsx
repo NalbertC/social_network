@@ -16,7 +16,7 @@ export const DropdownMenu = ({ children }: DropProps) => {
       <Dropdown.Trigger asChild>{children}</Dropdown.Trigger>
 
       <Dropdown.Portal>
-        <Dropdown.Content className="bg-card flex flex-col rounded-[12px] ml-3 min-w-[240px] ">
+        <Dropdown.Content className="bg-card flex flex-col rounded-[12px] ml-3 min-w-[240px] border-cardHover border">
           <Dropdown.Item
             className="h-10 pl-3 rounded-md flex flex-row items-center m-1 cursor-pointer hover:text-gray-200   hover:bg-cardHover focus:shadow-0 focus:outline-0"
             onClick={() => navigate("/meuperfil")}

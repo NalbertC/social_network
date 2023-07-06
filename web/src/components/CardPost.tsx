@@ -141,9 +141,12 @@ export function CardPost({
             )}
           </button>
 
-          <button className="w-full h-8 font-bold flex items-center gap-2 justify-center hover:bg-colorSecondary   rounded-lg" onClick={()=>{
-            setIsComment(!isComment)
-          }}>
+          <button
+            className="w-full h-8 font-bold flex items-center gap-2 justify-center hover:bg-colorSecondary   rounded-lg"
+            onClick={() => {
+              setIsComment(!isComment);
+            }}
+          >
             <BiMessageSquareDetail size={20} />
             Comentar
           </button>

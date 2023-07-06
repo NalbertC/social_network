@@ -51,6 +51,7 @@ export default {
           name: userAlreadExists.name,
           username: userAlreadExists.username,
           image: userAlreadExists.image?.url,
+          imageKey: userAlreadExists.image?.key,
         },
         token,
       });

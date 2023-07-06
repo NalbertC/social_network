@@ -90,25 +90,25 @@ export default {
 
   async post(req: Request, res: Response) {
     try {
-      // const userAutenticated = z.object({
-      //   userId: z.string(),
-      // });
+      const userAutenticated = z.object({
+        userId: z.string(),
+      });
 
       const viewPostParams = z.object({
         postId: z.string(),
       });
 
-      // const { userId } = userAutenticated.parse(req);
+      const { userId } = userAutenticated.parse(req);
 
-      // const userExists = await prisma.user.findUnique({
-      //   where: {
-      //     id: userId,
-      //   },
-      // });
+      const userExists = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+      });
 
-      // if (!userExists) {
-      //   return res.status(401).json("User does not exists");
-      // }
+      if (!userExists) {
+        return res.status(401).json("User does not exists");
+      }
 
       const { postId } = viewPostParams.parse(req.params);
 
@@ -128,6 +128,43 @@ export default {
       });
 
       return res.status(200).json(post);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json("Internal server error");
+    }
+  },
+
+  async postsUser(req: Request, res: Response) {
+    try {
+      const userAutenticated = z.object({
+        userId: z.string(),
+      });
+
+      const { userId } = userAutenticated.parse(req);
+
+      const userExists = await prisma.user.findUnique({
+        where: {
+          id: userId,
+        },
+        include: {
+          posts: {
+            orderBy: {
+              created_at: "desc",
+            },
+            include: {
+              image: true,
+              User: true,
+              likes: true,
+            },
+          },
+        },
+      });
+
+      if (!userExists) {
+        return res.status(401).json("User does not exists");
+      }
+
+      return res.status(200).json(userExists.posts);
     } catch (error) {
       console.error(error);
       return res.status(500).json("Internal server error");

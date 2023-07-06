@@ -5,9 +5,8 @@ interface LoadingProps {
 
 export function Loading ({}: LoadingProps) {
     return (
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-
-          <ActivityIndicator color="#7c3aed"/>
-        </View>
-    )
+      <View className="flex-1 bg-background items-center justify-center">
+        <ActivityIndicator color="#2374e1" />
+      </View>
+    );
 }

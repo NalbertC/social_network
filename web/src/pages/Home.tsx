@@ -62,7 +62,7 @@ export function Home() {
     <Page>
       <MainContent>
         <div className="w-full flex flex-row justify-center ">
-          <div className="max-w-[680px] w-full">
+          <article className="max-w-[680px] w-full">
             <div className="flex flex-col items-center gap-4">
               {post.map((post, i) => (
                 <CardPost
@@ -77,7 +77,7 @@ export function Home() {
                 />
               ))}
             </div>
-          </div>
+          </article>
         </div>
         <SidbarRigth />
       </MainContent>
