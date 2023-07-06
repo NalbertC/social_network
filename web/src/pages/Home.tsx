@@ -53,7 +53,6 @@ export function Home() {
         },
       });
 
-      console.log(data);
       setPost(data);
     })();
   }, []);

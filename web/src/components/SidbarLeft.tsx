@@ -1,8 +1,8 @@
-import { useContext } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { FaBars } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/auth";
+import { useAuth } from "../hooks/useAuth";
+import { useProfile } from "../hooks/useProfile";
 import { DropdownMenu } from "./DropdownMenu";
 import { Logo } from "./Logo";
 import { Text } from "./Text";
@@ -10,7 +10,8 @@ import { Text } from "./Text";
 interface SidbarLeftProps {}
 
 export function SidbarLeft({}: SidbarLeftProps) {
-  const { user } = useContext(AuthContext);
+  const { user } = useAuth();
+  const { userProfile } = useProfile();
   const navigate = useNavigate();
 
   return (
@@ -50,8 +51,8 @@ export function SidbarLeft({}: SidbarLeftProps) {
               }}
             >
               <div className="h-12 flex items-center w-full hover:bg-card px-3 rounded-lg gap-2">
-                {user?.image ? (
-                  <img src={user.image} className="h-6 w-6 rounded-full" />
+                {userProfile?.image?.url ? (
+                  <img src={userProfile.image.url} className="h-6 w-6 rounded-full" />
                 ) : (
                   <div className="" />
                 )}

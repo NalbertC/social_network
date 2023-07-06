@@ -4,6 +4,7 @@ import React from "react";
 import { Image, TouchableOpacity, View } from "react-native";
 
 import { useAuth } from "../hooks/useAuth";
+import { useProfile } from "../hooks/useProfile";
 
 interface NavbarProps {
   screen?: string;
@@ -11,6 +12,7 @@ interface NavbarProps {
 
 export function Navbar({ screen }: NavbarProps) {
   const { user } = useAuth();
+  const { userProfile } = useProfile();
 
   const { navigate } = useNavigation();
 
@@ -41,7 +43,7 @@ export function Navbar({ screen }: NavbarProps) {
         onPress={() => navigate("profile")}
       >
         <Image
-          source={{ uri: `http://10.0.1.106:8000/files/${user?.imageKey}` }}
+          source={{ uri: `http://10.0.1.106:8000/files/${userProfile?.image?.key}` }}
           className="w-full h-full rounded-full"
         />
       </TouchableOpacity>

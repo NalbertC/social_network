@@ -1,28 +1,37 @@
 import { useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
-import { TbEdit } from "react-icons/tb";
+import { FaCamera } from "react-icons/fa";
 import profileNull from "../assets/sem-perfil.png";
+import { useAuth } from "../hooks/useAuth";
+import { useProfile } from "../hooks/useProfile";
 
 interface Props {
+  fileSelected: File | undefined;
   onFileUploaded: (file: File) => void;
 }
 
-export const Dropzone: React.FC<Props> = ({ onFileUploaded }) => {
+export const Dropzone: React.FC<Props> = ({ fileSelected, onFileUploaded }) => {
+  const { user } = useAuth();
+  const { userProfile } = useProfile();
+
   const [selectedFileUrl, setSelectedFileUrl] = useState("");
 
-  const onDrop = useCallback((acceptedFiles: any) => {
-    const file = acceptedFiles[0];
+  const onDrop = useCallback(
+    (acceptedFiles: any) => {
+      const file = acceptedFiles[0];
 
-    const fileUrl = URL.createObjectURL(file);
+      const fileUrl = URL.createObjectURL(file);
 
-    console.log(file);
+      console.log(file);
 
-    setSelectedFileUrl(fileUrl);
-    console.log(fileUrl);
-    onFileUploaded(file);
+      setSelectedFileUrl(fileUrl);
+      console.log(fileUrl);
+      onFileUploaded(file);
 
-    // Do something with the files
-  }, []);
+      // Do something with the files
+    },
+    [onFileUploaded]
+  );
 
   const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop,
@@ -34,18 +43,19 @@ export const Dropzone: React.FC<Props> = ({ onFileUploaded }) => {
 
   return (
     <div
-      className="flex justify-center items-center w-[200px] h-[200px] border-dashed border-dark-400 border-[2px] bg-dark-300 mb-2 rounded-full relative"
+      className="flex justify-center items-center w-96 h-96 bg-background border-cardHover border  rounded-full relative"
       {...getRootProps()}
     >
       <input className="" {...getInputProps()} accept="image/*" />
+
       <span
-        className="cursor-pointer border bg-dark-300 w-8 h-8 flex justify-center items-center rounded-full absolute bottom-0 pt- right-0"
+        className="bg-card h-10 w-10 rounded-full absolute bottom-0 right-0 mr-2 mb-2 border-cardHover border flex items-center justify-center cursor-pointer "
         onClick={open}
       >
-        <TbEdit className="text-[30px]" />
+        <FaCamera size={20} />
       </span>
 
-      {selectedFileUrl ? (
+      {fileSelected ? (
         <img
           className="w-full h-full rounded-[inherit]"
           src={selectedFileUrl}
@@ -54,7 +64,7 @@ export const Dropzone: React.FC<Props> = ({ onFileUploaded }) => {
       ) : (
         <img
           className="w-full h-full rounded-[inherit]"
-          src={profileNull}
+          src={userProfile?.image.url ? userProfile.image.url : profileNull}
           alt="profiliNull"
         />
       )}

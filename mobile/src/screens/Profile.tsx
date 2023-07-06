@@ -17,12 +17,14 @@ import { CardPost, Post } from "../components/CardPost";
 import { Loading } from "../components/Loading";
 import { Navbar } from "../components/Navbar";
 import { useAuth } from "../hooks/useAuth";
+import { useProfile } from "../hooks/useProfile";
 import { api } from "../libs/axios";
 
 interface ProfileProps {}
 
 export function Profile({}: ProfileProps) {
-  const { loading, user } = useAuth();
+  const { loading, user, logout } = useAuth();
+  const { userProfile } = useProfile();
   const { goBack } = useNavigation();
   const [post, setPost] = useState<Post[]>([]);
   const [refreshing, setRefreshing] = useState(false);
@@ -60,7 +62,10 @@ export function Profile({}: ProfileProps) {
 
   return (
     <View className="flex-1 bg-background pt-6">
-      <View className="h-10 flex-row items-center px-4 justify-end">
+      <View className="h-10 flex-row items-center px-4 justify-between">
+        <TouchableOpacity activeOpacity={0.7} onPress={logout}>
+          <Feather name="x" color={"#fff"} size={24} />
+        </TouchableOpacity>
         <TouchableOpacity activeOpacity={0.7}>
           <Feather name="settings" color={"#fff"} size={24} />
         </TouchableOpacity>
@@ -77,7 +82,7 @@ export function Profile({}: ProfileProps) {
         >
           <Image
             source={{
-              uri: `http://10.0.1.106:8000/files/${user?.imageKey}`,
+              uri: `http://10.0.1.106:8000/files/${userProfile?.image?.key}`,
             }}
             className="h-full rounded-full"
           />
@@ -102,12 +107,12 @@ export function Profile({}: ProfileProps) {
         visible={modalVisible}
         onRequestClose={() => setModalVisible(false)}
       >
-        <View
-          className="items-center justify-center flex-1"
-          style={{ backgroundColor: "rgba(10, 10, 10, 0.6)" }}
-        >
+        <View className="items-center justify-center flex-1 bg-background/60">
           <View className="w-[320px] p-4 bg-card rounded-2xl">
-            <TouchableOpacity className="items-center justify-center flex-row h-10 w-full  mb-4" activeOpacity={0.7}>
+            <TouchableOpacity
+              className="items-center justify-center flex-row h-10 w-full  mb-4"
+              activeOpacity={0.7}
+            >
               <Feather name="camera" color={"#fff"} size={20} />
               <Text className="pl-2 text-base text-textPrincipal font-[helveticaBold] ">
                 Atualizar foto

@@ -3,7 +3,7 @@ import { createContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, createSession } from "../services/api";
 
-interface User {
+export interface User {
   id: string;
   name: string;
   username: string;
