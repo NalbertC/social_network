@@ -1,4 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AxiosError } from "axios";
 import { createContext, useEffect, useState } from "react";
 import { Alert } from "react-native";
 import { api } from "../libs/axios";
@@ -39,7 +40,7 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
         setUser(JSON.parse(recoveredUser));
       }
 
-      console.log(recoveredUser)
+      console.log(recoveredUser);
 
       setLoading(false);
     })();
@@ -63,7 +64,14 @@ export const AuthProvider = ({ children }: AuthProviderProps) => {
 
       setUser(response.data.user);
     } catch (err) {
-      return Alert.alert("Ops...", "Usuário ou senha inválidos");
+      if (err instanceof AxiosError) {
+        if (err.response?.status === 500) {
+          return Alert.alert("Ops...", "Usuario ou senha inválidos");
+        }
+
+        return err.response?.status;
+      }
+      return Alert.alert("Ops...", "Erro ao conectar-se ao servidor");
     } finally {
       setLoading(false);
     }

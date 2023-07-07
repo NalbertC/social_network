@@ -7,6 +7,8 @@ export declare global {
         postId: string;
       };
       profile: undefined;
+      photoProfile: undefined;
+      updateImageProfile: undefined;
     }
   }
 }

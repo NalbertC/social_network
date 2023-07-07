@@ -25,7 +25,7 @@ interface ProfileProps {}
 export function Profile({}: ProfileProps) {
   const { loading, user, logout } = useAuth();
   const { userProfile } = useProfile();
-  const { goBack } = useNavigation();
+  const { goBack, navigate } = useNavigation();
   const [post, setPost] = useState<Post[]>([]);
   const [refreshing, setRefreshing] = useState(false);
   const [modalVisible, setModalVisible] = useState(false);
@@ -112,12 +112,32 @@ export function Profile({}: ProfileProps) {
             <TouchableOpacity
               className="items-center justify-center flex-row h-10 w-full  mb-4"
               activeOpacity={0.7}
+              onPress={() => {
+                navigate("photoProfile");
+
+                setModalVisible(false);
+              }}
             >
               <Feather name="camera" color={"#fff"} size={20} />
+              <Text className="pl-2 text-base text-textPrincipal font-[helveticaBold] ">
+                Ver foto
+              </Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              className="items-center justify-center flex-row h-10 w-full  mb-4"
+              activeOpacity={0.7}
+              onPress={() => {
+                navigate("updateImageProfile");
+                setModalVisible(false);
+              }}
+            >
+              <Feather name="edit" color={"#fff"} size={20} />
               <Text className="pl-2 text-base text-textPrincipal font-[helveticaBold] ">
                 Atualizar foto
               </Text>
             </TouchableOpacity>
+
             <Button onPress={() => setModalVisible(false)}>Cancelar</Button>
           </View>
         </View>

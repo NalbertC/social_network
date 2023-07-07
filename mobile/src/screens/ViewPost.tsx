@@ -62,6 +62,8 @@ export function ViewPost({}: ViewPostProps) {
         </TouchableOpacity>
       </View>
 
+      {/*  */}
+
       <View className="flex-1 items-center justify-center">
         {/* <Image
           source={{ uri: `http://10.0.1.106:8000/files/${post.image?.key}` }}
